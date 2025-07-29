@@ -6,14 +6,16 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "::",
+    host: "::", // IPv6-os bindolás (0.0.0.0 helyett)
     port: 8080,
+    allowedHosts: [
+      "office60f91ab.ngrok-free.app", // pontos ngrok domain
+      ".ngrok-free.app", // minden ngrok altartomány engedélyezése
+    ],
   },
-  plugins: [
-    react(),
-    mode === 'development' &&
-    componentTagger(),
-  ].filter(Boolean),
+  plugins: [react(), mode === "development" && componentTagger()].filter(
+    Boolean
+  ),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
