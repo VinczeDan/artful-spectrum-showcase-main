@@ -17,7 +17,7 @@ const GallerySection = ({ id, title, description, color }: GallerySectionProps) 
   const placeholderImages = Array.from({ length: 6 }, (_, i) => ({
     id: i + 1,
     title: `${title} Mű ${i + 1}`,
-    description: `Gyönyörű ${title.toLowerCase()} alkotás`,
+    description: `leírás a ${title} műről `,
     imageUrl: `https://picsum.photos/400/300?random=${id}-${i}`
   }));
 

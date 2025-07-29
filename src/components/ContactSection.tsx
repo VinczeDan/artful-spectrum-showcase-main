@@ -60,8 +60,8 @@ const ContactSection = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
           <div className="slide-in-left space-y-8">
+         
             <Card className="border-0 shadow-soft">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-xl">
@@ -75,8 +75,7 @@ const ContactSection = () => {
                 <p className="text-muted-foreground">
                   • Egyedi portré készítés<br />
                   • Tájképek és természet ábrázolás<br />
-                  • Különleges alkalmakra készült művek<br />
-                  • Művészeti oktatás és workshopok
+                  • Különleges alkalmakra készült művek
                 </p>
               </CardContent>
             </Card>
@@ -102,18 +101,9 @@ const ContactSection = () => {
                 </div>
               </div>
 
-              <div className="fade-in-up stagger-3 flex items-center gap-4">
-                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground">Műterem</h3>
-                  <p className="text-muted-foreground">Budapest, Magyarország</p>
-                </div>
-              </div>
+              
             </div>
           </div>
-
           {/* Contact Form */}
           <div className="slide-in-right">
             <Card className="border-0 shadow-medium">

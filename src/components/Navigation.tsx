@@ -12,6 +12,7 @@ const Navigation = ({ activeSection, setActiveSection }: NavigationProps) => {
 
   const menuItems = [
     { id: 'home', label: 'Főoldal' },
+    { id: 'about', label: 'Rólam' },
     { id: 'watercolor', label: 'Akvarell' },
     { id: 'acrylic', label: 'Akril' },
     { id: 'oil', label: 'Olajfestés' },
