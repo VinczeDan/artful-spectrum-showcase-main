@@ -11,6 +11,16 @@ export default defineConfig(({ mode }) => ({
     allowedHosts: [
       "office60f91ab.ngrok-free.app", // pontos ngrok domain
       ".ngrok-free.app", // minden ngrok altartomány engedélyezése
+      "revfalvi-art-2.onrender.com", // Render.com domain hozzáadva
+      ".onrender.com", // minden Render altartomány engedélyezése
+    ],
+  },
+  preview: {
+    host: "::",
+    port: 8080,
+    allowedHosts: [
+      "revfalvi-art-2.onrender.com", // Render.com domain hozzáadva
+      ".onrender.com", // minden Render altartomány engedélyezése
     ],
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(
