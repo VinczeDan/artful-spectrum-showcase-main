@@ -209,26 +209,7 @@ const ContactSection = () => {
                     )}
                   </div>
 
-                  <div className="flex items-center gap-2 fade-in-up stagger-5">
-                    <input
-                      type="checkbox"
-                      id="privacy-policy"
-                      required
-                      className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-                    />
-                    <label
-                      htmlFor="privacy-policy"
-                      className="text-sm text-muted-foreground"
-                    >
-                      Elfogadom az{" "}
-                      <a
-                        href="/adatvedelem"
-                        className="text-primary hover:underline"
-                      >
-                        adatkezelési tájékoztatót
-                      </a>
-                    </label>
-                  </div>
+                  
 
                   <Button
                     type="submit"
