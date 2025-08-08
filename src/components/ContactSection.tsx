@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin, Palette } from "lucide-react";
+import { Mail, Phone, Palette } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const ContactSection = () => {
@@ -20,32 +20,36 @@ const ContactSection = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    // async-re változtatva
     e.preventDefault();
-    setIsSubmitting(true); // Küldés állapot beállítása
+    setIsSubmitting(true);
 
     try {
-      // Itt implementálhatod az üzenet küldési logikát
-      // Példa API hívás:
-      // const response = await fetch('/api/contact', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData)
-      // });
+      const response = await fetch(
+        "http://localhost:8000/api/send-contact-email/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Hiba történt a küldés során");
+      }
 
       toast({
-        title: "Üzenet elküldve!",
-        description: "Köszönöm az érdeklődést, hamarosan válaszolok.",
+        title: "Sikeres küldés!",
+        description: "Üzenetét megkaptuk, hamarosan válaszolunk.",
       });
 
-      // Form reset
       setFormData({
         name: "",
         email: "",
@@ -54,13 +58,12 @@ const ContactSection = () => {
       });
     } catch (error) {
       toast({
-        title: "Hiba történt",
-        description:
-          "Az üzenet küldése sikertelen volt. Kérlek próbáld újra később.",
+        title: "Hiba",
+        description: error instanceof Error ? error.message : "Ismeretlen hiba",
         variant: "destructive",
       });
     } finally {
-      setIsSubmitting(false); // Küldés állapot visszaállítása
+      setIsSubmitting(false);
     }
   };
 
