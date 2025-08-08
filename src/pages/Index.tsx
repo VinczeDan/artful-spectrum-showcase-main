@@ -43,9 +43,7 @@ const Index = () => {
       />
       {/* Hero Section */}
       <HeroSection setActiveSection={setActiveSection} />
-
       <AboutMe /> {/* Új sor */}
-      
       {/* Gallery Sections */}
       <GallerySection
         id="watercolor"
@@ -71,6 +69,7 @@ const Index = () => {
         description="Szén, grafit, színes és pasztell ceruzával készült finom kompozíciók és részletgazdag ábrázolások."
         color="pencil"
       />
+      
       {/* Contact Section */}
       <ContactSection />
     </div>
