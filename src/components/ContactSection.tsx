@@ -1,43 +1,67 @@
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Mail, Phone, MapPin, Palette } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Mail, Phone, MapPin, Palette } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false); // Hiányzó állapot hozzáadva
   const { toast } = useToast();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    // async-re változtatva
     e.preventDefault();
-    // Itt implementálhatod az üzenet küldési logikát
-    toast({
-      title: "Üzenet elküldve!",
-      description: "Köszönöm az érdeklődést, hamarosan válaszolok.",
-    });
-    
-    // Form reset
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    });
+    setIsSubmitting(true); // Küldés állapot beállítása
+
+    try {
+      // Itt implementálhatod az üzenet küldési logikát
+      // Példa API hívás:
+      // const response = await fetch('/api/contact', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify(formData)
+      // });
+
+      toast({
+        title: "Üzenet elküldve!",
+        description: "Köszönöm az érdeklődést, hamarosan válaszolok.",
+      });
+
+      // Form reset
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } catch (error) {
+      toast({
+        title: "Hiba történt",
+        description:
+          "Az üzenet küldése sikertelen volt. Kérlek próbáld újra később.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false); // Küldés állapot visszaállítása
+    }
   };
 
   return (
@@ -48,20 +72,19 @@ const ContactSection = () => {
           <div className="slide-in-left inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-primary mb-6">
             <Mail className="w-8 h-8 text-white" />
           </div>
-          
+
           <h2 className="slide-in-right text-4xl md:text-5xl font-bold text-foreground mb-4">
             Kapcsolat
           </h2>
-          
+
           <p className="fade-in-up text-lg text-muted-foreground max-w-2xl mx-auto">
-            Érdekel egy egyedi megrendelés vagy kérdésed van a munkáimmal kapcsolatban? 
-            Vedd fel velem a kapcsolatot!
+            Érdekel egy egyedi megrendelés vagy kérdésed van a munkáimmal
+            kapcsolatban? Vedd fel velem a kapcsolatot!
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="slide-in-left space-y-8">
-         
             <Card className="border-0 shadow-soft">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-xl">
@@ -73,9 +96,10 @@ const ContactSection = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  • Egyedi portré készítés<br />
-                  • Tájképek és természet ábrázolás<br />
-                  • Különleges alkalmakra készült művek
+                  • Egyedi portré készítés
+                  <br />
+                  • Tájképek és természet ábrázolás
+                  <br />• Különleges alkalmakra készült művek
                 </p>
               </CardContent>
             </Card>
@@ -100,8 +124,6 @@ const ContactSection = () => {
                   <p className="text-muted-foreground">+36 XX XXX XXXX</p>
                 </div>
               </div>
-
-              
             </div>
           </div>
           {/* Contact Form */}
@@ -120,8 +142,14 @@ const ContactSection = () => {
                         value={formData.name}
                         onChange={handleInputChange}
                         required
+                        minLength={2}
                         className="h-12"
                       />
+                      {formData.name && formData.name.length < 2 && (
+                        <p className="mt-1 text-xs text-red-500">
+                          Minimum 2 karakter
+                        </p>
+                      )}
                     </div>
                     <div className="fade-in-up stagger-2">
                       <Input
@@ -131,8 +159,15 @@ const ContactSection = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
+                        pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
                         className="h-12"
                       />
+                      {formData.email &&
+                        !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(formData.email) && (
+                          <p className="mt-1 text-xs text-red-500">
+                            Érvényes email cím szükséges
+                          </p>
+                        )}
                     </div>
                   </div>
 
@@ -143,8 +178,14 @@ const ContactSection = () => {
                       value={formData.subject}
                       onChange={handleInputChange}
                       required
+                      minLength={3}
                       className="h-12"
                     />
+                    {formData.subject && formData.subject.length < 3 && (
+                      <p className="mt-1 text-xs text-red-500">
+                        Minimum 3 karakter
+                      </p>
+                    )}
                   </div>
 
                   <div className="fade-in-up stagger-4">
@@ -154,17 +195,71 @@ const ContactSection = () => {
                       value={formData.message}
                       onChange={handleInputChange}
                       required
+                      minLength={10}
                       rows={6}
                       className="resize-none"
                     />
+                    {formData.message && formData.message.length < 10 && (
+                      <p className="mt-1 text-xs text-red-500">
+                        Minimum 10 karakter
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2 fade-in-up stagger-5">
+                    <input
+                      type="checkbox"
+                      id="privacy-policy"
+                      required
+                      className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                    />
+                    <label
+                      htmlFor="privacy-policy"
+                      className="text-sm text-muted-foreground"
+                    >
+                      Elfogadom az{" "}
+                      <a
+                        href="/adatvedelem"
+                        className="text-primary hover:underline"
+                      >
+                        adatkezelési tájékoztatót
+                      </a>
+                    </label>
                   </div>
 
                   <Button
                     type="submit"
                     size="lg"
+                    disabled={isSubmitting}
                     className="w-full bg-gradient-primary hover:opacity-90 transition-opacity text-white font-medium h-12 rounded-full"
                   >
-                    Üzenet küldése
+                    {isSubmitting ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg
+                          className="animate-spin h-5 w-5 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        Küldés...
+                      </span>
+                    ) : (
+                      "Üzenet küldése"
+                    )}
                   </Button>
                 </form>
               </CardContent>
