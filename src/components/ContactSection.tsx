@@ -99,10 +99,8 @@ const ContactSection = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <p className="text-muted-foreground">
-                  • Egyedi portré készítés
-                  <br />
-                  • Tájképek és természet ábrázolás
-                  <br />• Különleges alkalmakra készült művek
+                  • Házasságkötés <br />• Babavárás <br />• Páros tánc <br />•
+                  Egyedi portré készítés <br />• Hangszeres előadás
                 </p>
               </CardContent>
             </Card>
@@ -114,7 +112,9 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">Email</h3>
-                  <p className="text-muted-foreground">email@email.com</p>
+                  <p className="text-muted-foreground">
+                    revfalvi.peter@googlemail.com
+                  </p>
                 </div>
               </div>
 
@@ -124,7 +124,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">Telefon</h3>
-                  <p className="text-muted-foreground">+36 XX XXX XXXX</p>
+                  <p className="text-muted-foreground">06 30 862 3832</p>
                 </div>
               </div>
             </div>
@@ -208,8 +208,6 @@ const ContactSection = () => {
                       </p>
                     )}
                   </div>
-
-                  
 
                   <Button
                     type="submit"

@@ -1,7 +1,5 @@
-// components/GallerySection.tsx
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 
 interface Painting {
   id: number;
@@ -112,18 +110,18 @@ const GallerySection = ({
               onClick={() => setSelectedPainting(painting)}
             >
               <CardContent className="p-0">
-                <div className="relative overflow-hidden rounded-lg">
+                <div className="relative overflow-hidden rounded-lg aspect-[4/3]">
                   <img
                     src={painting.image_url}
                     alt={painting.title}
-                    className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute bottom-4 left-4 right-4">
                       <h3 className="text-white font-semibold text-lg mb-1">
                         {painting.title}
                       </h3>
-                      <p className="text-white/90 text-sm">
+                      <p className="text-white/90 text-sm line-clamp-2">
                         {painting.description}
                       </p>
                     </div>
@@ -134,26 +132,65 @@ const GallerySection = ({
           ))}
         </div>
 
-        {/* Modal for selected painting */}
+        {/* Modal with fixed height image */}
         {selectedPainting && (
           <div
             className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
             onClick={() => setSelectedPainting(null)}
           >
-            <div className="max-w-4xl max-h-full bg-white rounded-lg overflow-hidden">
-              <div className="p-4">
-                <h3 className="text-xl font-bold mb-2">
-                  {selectedPainting.title}
-                </h3>
-                <p className="text-gray-700 mb-4">
-                  {selectedPainting.description}
-                </p>
+            <div
+              className="bg-white rounded-lg overflow-hidden max-w-6xl w-full max-h-[90vh] flex flex-col lg:flex-row"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Left Side - Fixed Height Image (always 70vh) */}
+              <div className="lg:w-1/2 h-[70vh] bg-gray-50 flex items-center justify-center p-8">
+                <div className="w-full h-full flex items-center justify-center">
+                  <img
+                    src={selectedPainting.image_url}
+                    alt={selectedPainting.title}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
               </div>
-              <img
-                src={selectedPainting.image_url}
-                alt={selectedPainting.title}
-                className="max-w-full max-h-[80vh] object-contain"
-              />
+
+              {/* Right Side - Content */}
+              <div className="lg:w-1/2 p-8 overflow-y-auto">
+                <div className="space-y-6">
+                  <h3 className="text-3xl font-bold text-gray-900">
+                    {selectedPainting.title}
+                  </h3>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm font-medium text-gray-500">
+                        Technika
+                      </p>
+                      <p className="text-lg capitalize">
+                        {selectedPainting.technique}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-500">
+                        Készült
+                      </p>
+                      <p className="text-lg">
+                        {new Date(
+                          selectedPainting.created_at
+                        ).toLocaleDateString("hu-HU")}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-gray-200 pt-4">
+                    <h4 className="text-sm font-medium text-gray-500 mb-2">
+                      Leírás
+                    </h4>
+                    <p className="text-gray-700 whitespace-pre-line">
+                      {selectedPainting.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
